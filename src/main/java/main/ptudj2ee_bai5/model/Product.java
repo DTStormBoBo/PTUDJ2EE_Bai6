@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Entity
@@ -35,4 +36,7 @@ public class Product {
     @ManyToOne // Quan hệ nhiều sản phẩm thuộc 1 danh mục
     @JoinColumn(name = "category_id", nullable = false) // Tên cột liên kết trong bảng product
     private Category category;
+    
+    @Transient
+    private MultipartFile imageFile;
 }

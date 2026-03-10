@@ -4,43 +4,318 @@
       layout:decorate="~{_layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Products List</title>
+    <title>Danh Sách Sản Phẩm</title>
 </head>
 <body>
-<div layout:fragment="content" class="container body-content">
-    <h2>Products</h2>
-    <a th:href="@{/products/add}" class="btn btn-primary">Create New Product</a>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Image</th>
-            <th scope="col">Price</th>
-            <th scope="col">Category Name</th>
-            <th scope="col">Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="product: ${listproduct}">
-            <th scope="row" th:text="${product.id}"></th>
-            <td th:text="${product.name}"></td>
-            <td>
-                <img height="120" width="150" th:src="${product.image}" alt="Product Image">
-            </td>
-            <td th:text="${product.price}"></td>
-            <td th:text="${product.category} != null ? ${product.category.name} : 'N/A'"></td>
-            <td>
-                <form th:action="@{/products/edit/{id}(id=${product.id})}" method="get" style="display:inline;">
-                    <button type="submit" class="btn btn-secondary">Edit</button>
-                </form>
-                <form th:action="@{/products/delete/{id}(id=${product.id})}" method="post" style="display:inline;">
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+<div layout:fragment="content">
+    <style>
+        .page-header {
+            background: linear-gradient(135deg, #1a1a2e, #0f3460);
+            color: white;
+            border-radius: 16px;
+            padding: 2rem 2.5rem;
+            margin: 0 auto 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 8px 32px rgba(15, 52, 96, 0.3);
+            max-width: 1200px;
+        }
+
+        .page-header h2 {
+            margin: 0;
+            font-weight: 700;
+            font-size: 1.8rem;
+            letter-spacing: 0.5px;
+        }
+
+        .page-header p {
+            margin: 0.3rem 0 0;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        .btn-add {
+            background: linear-gradient(135deg, #e94560, #c73652);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.4rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 15px rgba(233, 69, 96, 0.4);
+        }
+
+        .btn-add:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(233, 69, 96, 0.5);
+            color: white;
+        }
+
+        .table-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .table-card table {
+            margin: 0;
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        .table thead {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: white;
+        }
+
+        .table thead th {
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            padding: 1rem 1.2rem;
+            border: none;
+        }
+
+        .table tbody tr {
+            transition: background 0.15s ease;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f8f9ff;
+        }
+
+        .table tbody td, .table tbody th {
+            padding: 0.9rem 1.2rem;
+            vertical-align: middle;
+            border-color: #f0f2f5;
+            font-size: 0.92rem;
+        }
+
+        .product-id {
+            background: #f0f2f5;
+            color: #555;
+            font-weight: 600;
+            font-size: 0.8rem;
+            padding: 3px 8px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: #1a1a2e;
+        }
+
+        .product-img {
+            border-radius: 10px;
+            object-fit: cover;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+            border: 2px solid #f0f2f5;
+        }
+
+        .price-badge {
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            color: #2e7d32;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.88rem;
+        }
+
+        .category-badge {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            color: #1565c0;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .btn-edit {
+            background: linear-gradient(135deg, #0f3460, #16213e);
+            color: white;
+            border: none;
+            padding: 0.38rem 0.9rem;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .btn-edit:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(15, 52, 96, 0.4);
+        }
+
+        .btn-delete {
+            background: linear-gradient(135deg, #e94560, #c73652);
+            color: white;
+            border: none;
+            padding: 0.38rem 0.9rem;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .btn-delete:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(233, 69, 96, 0.4);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #aaa;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: #ddd;
+        }
+
+        .stats-row {
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+
+        .stat-icon.blue {
+            background: linear-gradient(135deg, #e3f2fd, #90caf9);
+            color: #1565c0;
+        }
+
+        .stat-icon.red {
+            background: linear-gradient(135deg, #fce4ec, #f48fb1);
+            color: #c62828;
+        }
+
+        .stat-icon.green {
+            background: linear-gradient(135deg, #e8f5e9, #a5d6a7);
+            color: #2e7d32;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1a1a2e;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 2px;
+        }
+    </style>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div>
+            <h2><i class="fas fa-boxes me-2"></i>Danh Sách Sản Phẩm</h2>
+            <p>Quản lý toàn bộ sản phẩm của bạn</p>
+        </div>
+        <a th:href="@{/products/add}" class="btn-add">
+            <i class="fas fa-plus me-2"></i>Thêm Sản Phẩm
+        </a>
+        <a th:href="@{/categories}" class="btn-add">
+            <i class="fas fa-plus me-2"></i>Danh mục
+        </a>
+    </div>
+
+    <!-- Table -->
+    <div class="table-card">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th><i class="fas fa-hashtag me-1"></i>ID</th>
+                <th><i class="fas fa-tag me-1"></i>Tên Sản Phẩm</th>
+                <th><i class="fas fa-image me-1"></i>Hình Ảnh</th>
+                <th><i class="fas fa-dollar-sign me-1"></i>Giá</th>
+                <th><i class="fas fa-th-large me-1"></i>Danh Mục</th>
+                <th><i class="fas fa-cogs me-1"></i>Thao Tác</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.isEmpty(listproduct)}">
+                <td colspan="6">
+                    <div class="empty-state">
+                        <i class="fas fa-box-open"></i>
+                        <p class="mt-2 fs-5 fw-semibold">Chưa có sản phẩm nào</p>
+                        <a th:href="@{/products/add}" class="btn-add mt-2 d-inline-block">
+                            <i class="fas fa-plus me-1"></i>Thêm ngay
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            <tr th:each="product: ${listproduct}">
+                <td><span class="product-id" th:text="${product.id}"></span></td>
+                <td><span class="product-name" th:text="${product.name}"></span></td>
+                <td>
+                    <img class="product-img" height="70" width="90"
+                         th:src="${product.image != null ? product.image : '/upload/images/default.jpg'}" 
+                         alt="Product Image"
+                         onerror="this.src='/upload/images/default.jpg'">
+                </td>
+                <td>
+                    <span class="price-badge">
+                        <i class="fas fa-dong-sign me-1"></i>
+                        <span th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}"></span>
+                    </span>
+                </td>
+                <td>
+                    <span class="category-badge"
+                          th:text="${product.category != null ? product.category.name : 'N/A'}"></span>
+                </td>
+                <td>
+                    <div class="d-flex gap-2">
+                        <form th:action="@{/products/edit/{id}(id=${product.id})}" method="get" style="display:inline;">
+                            <button type="submit" class="btn-edit">
+                                <i class="fas fa-pen me-1"></i>Sửa
+                            </button>
+                        </form>
+                        <form th:action="@{/products/delete/{id}(id=${product.id})}" method="post"
+                              style="display:inline;"
+                              onsubmit="return confirm('Bạn có chắc muốn xóa sản phẩm này?')">
+                            <button type="submit" class="btn-delete">
+                                <i class="fas fa-trash me-1"></i>Xóa
+                            </button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 </html>

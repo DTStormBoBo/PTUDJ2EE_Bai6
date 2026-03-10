@@ -4,34 +4,249 @@
       layout:decorate="~{_layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Add Product</title>
+    <title>Thêm Sản Phẩm</title>
 </head>
 <body>
-<div layout:fragment="content" class="container body-content">
-    <h2>Add Product</h2>
-    <form th:action="@{/products/save}" th:object="${product}" method="post" class="form">
-        <div class="form-group">
-            <label for="name">Name:</label>
-            <input class="form-control" type="text" th:field="*{name}" id="name" placeholder="Product Name">
-        </div>
-        <div class="form-group">
-            <label for="image">Image URL:</label>
-            <input class="form-control" type="text" th:field="*{image}" id="image" placeholder="http://image.jpg">
-        </div>
-        <div class="form-group">
-            <label for="price">Price:</label>
-            <input class="form-control" type="number" th:field="*{price}" id="price" placeholder="Price">
-        </div>
-        <div class="form-group">
-            <label for="category">Category:</label>
-            <select th:field="*{category}" class="form-control" id="category">
-                <option th:each="category: ${categories}"
-                        th:value="${category.id}"
-                        th:text="${category.name}"></option>
-            </select>
-        </div>
-        <button type="submit" class="btn btn-success">Add Product</button>
-    </form>
+<div layout:fragment="content">
+    <style>
+        .form-page-header {
+            background: linear-gradient(135deg, #1a1a2e, #0f3460);
+            color: white;
+            border-radius: 16px;
+            padding: 1.8rem 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(15, 52, 96, 0.3);
+        }
+
+        .form-page-header h2 {
+            margin: 0;
+            font-weight: 700;
+            font-size: 1.7rem;
+        }
+
+        .form-page-header p {
+            margin: 0.3rem 0 0;
+            opacity: 0.65;
+            font-size: 0.88rem;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .form-card-body {
+            padding: 2rem 2.5rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            font-size: 0.88rem;
+            color: #333;
+            margin-bottom: 0.4rem;
+            letter-spacing: 0.2px;
+        }
+
+        .form-label i {
+            color: #0f3460;
+            margin-right: 5px;
+        }
+
+        .form-control,
+        .form-select {
+            border: 2px solid #e8ecf0;
+            border-radius: 10px;
+            padding: 0.65rem 1rem;
+            font-size: 0.92rem;
+            color: #333;
+            transition: all 0.2s ease;
+            background-color: #fafbfc;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #0f3460;
+            box-shadow: 0 0 0 3px rgba(15, 52, 96, 0.12);
+            background-color: #fff;
+            outline: none;
+        }
+
+        .form-control::placeholder {
+            color: #bbb;
+            font-size: 0.88rem;
+        }
+
+        .mb-form {
+            margin-bottom: 1.4rem;
+        }
+
+        .img-preview-wrap {
+            margin-top: 0.6rem;
+            display: none;
+        }
+
+        .img-preview-wrap img {
+            border-radius: 10px;
+            border: 2px solid #e8ecf0;
+            max-height: 140px;
+            object-fit: cover;
+        }
+
+        .form-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem 2.5rem;
+            background: #f8f9fb;
+            border-top: 1px solid #f0f2f5;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #e94560, #c73652);
+            color: white;
+            border: none;
+            padding: 0.65rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.92rem;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 15px rgba(233, 69, 96, 0.35);
+            cursor: pointer;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(233, 69, 96, 0.5);
+        }
+
+        .btn-cancel {
+            background: transparent;
+            color: #666;
+            border: 2px solid #e0e0e0;
+            padding: 0.63rem 1.6rem;
+            border-radius: 10px;
+            font-weight: 500;
+            font-size: 0.92rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-cancel:hover {
+            border-color: #bbb;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        .section-divider {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #0f3460;
+            letter-spacing: 1px;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e8ecf0;
+        }
+
+        .text-danger {
+            color: #dc3545;
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+            display: block;
+        }
+    </style>
+
+    <!-- Page Header -->
+    <div class="form-page-header" style="max-width: 900px; margin: 0 auto 2rem;">
+        <h2><i class="fas fa-plus-circle me-2"></i>Thêm Sản Phẩm Mới</h2>
+        <p>Điền đầy đủ thông tin để thêm sản phẩm vào hệ thống</p>
+    </div>
+
+    <!-- Form Card -->
+    <div class="form-card">
+        <form th:action="@{/products/save}" th:object="${product}" method="post" enctype="multipart/form-data">
+            <div class="form-card-body">
+                <p class="section-divider"><i class="fas fa-info-circle me-1"></i>Thông tin sản phẩm</p>
+
+                <div class="row">
+                    <div class="col-md-6 mb-form">
+                        <label for="name" class="form-label"><i class="fas fa-tag"></i>Tên Sản Phẩm</label>
+                           <input class="form-control" type="text" th:field="*{name}" id="name"
+                               placeholder="Nhập tên sản phẩm..." required/>
+                           <small class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+                    </div>
+                          <div class="col-md-6 mb-form">
+                           <label for="price" class="form-label"><i class="fas fa-dollar-sign"></i>Giá (VNĐ)</label>
+                           <input class="form-control" type="number" th:field="*{price}" id="price"
+                               placeholder="Nhập giá sản phẩm..." required min="1"/>
+                           <small class="text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></small>
+                    </div>
+                </div>
+
+                <div class="mb-form">
+                    <label for="imageFile" class="form-label"><i class="fas fa-image"></i>Hình Ảnh</label>
+                    <div class="input-group">
+                        <input class="form-control" type="file" id="imageFile" name="imageFile" accept="image/*"/>
+                    </div>
+                    <div class="img-preview-wrap" id="imgPreviewWrap">
+                        <img id="imgPreview" src="" alt="Preview" width="180"/>
+                    </div>
+                </div>
+
+                <div class="mb-form">
+                    <label for="categoryId" class="form-label"><i class="fas fa-th-large"></i>Danh Mục</label>
+                    <select name="categoryId" class="form-select" id="categoryId" required>
+                        <option value="">-- Chọn danh mục --</option>
+                        <option th:each="category: ${categories}"
+                                th:value="${category.id}"
+                                th:text="${category.name}"></option>
+                    </select>
+                    <small class="text-danger" th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></small>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-save me-2"></i>Lưu Sản Phẩm
+                </button>
+                <a th:href="@{/products}" class="btn-cancel">
+                    <i class="fas fa-arrow-left me-1"></i>Quay lại
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Xử lý khi file được chọn
+        document.getElementById('imageFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    previewImage(event.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function previewImage(url) {
+            const wrap = document.getElementById('imgPreviewWrap');
+            const img = document.getElementById('imgPreview');
+            if (url && url.trim() !== '') {
+                img.src = url;
+                wrap.style.display = 'block';
+                img.onerror = function () {
+                    wrap.style.display = 'none';
+                };
+            } else {
+                wrap.style.display = 'none';
+            }
+        }
+    </script>
 </div>
 </body>
 </html>

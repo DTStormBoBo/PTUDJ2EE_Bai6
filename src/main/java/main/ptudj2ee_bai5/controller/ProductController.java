@@ -18,6 +18,9 @@ public class ProductController {
     @Autowired
     private CategoryService categoryService;
 
+    @Autowired
+    private FileUploadService fileUploadService;
+
     @GetMapping("/")
     public String Root() {
         return "redirect:/products";
@@ -38,24 +41,60 @@ public class ProductController {
 
     @PostMapping("/products/save")
     public String Save(@Valid Product newProduct, BindingResult result,
-                         @RequestParam(value = "image", required = false) MultipartFile image, Model model) {
+                       @RequestParam(value = "categoryId", required = false) Integer categoryId,
+                       @RequestParam(value = "imageFile", required = false) MultipartFile imageFile, 
+                       Model model) {
+        
+        // Xử lý category
+        if (categoryId != null && categoryId > 0) {
+            Category category = categoryService.getCategoryById(categoryId);
+            if (category != null) {
+                newProduct.setCategory(category);
+            } else {
+                result.rejectValue("category", "error.category", "Danh mục không tồn tại");
+            }
+        } else {
+            result.rejectValue("category", "error.category", "Vui lòng chọn danh mục");
+        }
+        
+        // Validate
         if (result.hasErrors()) {
             model.addAttribute("product", newProduct);
             model.addAttribute("categories", categoryService.getAllCategories());
             return "products/add";
         }
-        if (image != null && !image.isEmpty()) {
+        
+        // Xử lý ảnh upload từ file
+        if (imageFile != null && !imageFile.isEmpty()) {
             try {
-                String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
-                newProduct.setImage(fileName);
+                String imagePath = fileUploadService.saveProductImage(imageFile);
+                if (imagePath != null) {
+                    newProduct.setImage(imagePath);
+                    System.out.println("Upload ảnh thành công: " + imagePath);
+                }
             } catch (Exception e) {
+                System.out.println("Lỗi khi tải ảnh: " + e.getMessage());
                 model.addAttribute("product", newProduct);
                 model.addAttribute("categories", categoryService.getAllCategories());
                 model.addAttribute("errorMessage", "Lỗi khi tải ảnh: " + e.getMessage());
                 return "products/add";
             }
+        } else {
+            // Sử dụng ảnh mặc định nếu không upload
+            newProduct.setImage("/upload/images/default.jpg");
         }
-        productService.saveProduct(newProduct);
+        
+        // Lưu vào database
+        try {
+            productService.saveProduct(newProduct);
+            System.out.println("Lưu sản phẩm thành công: " + newProduct.getName());
+        } catch (Exception e) {
+            System.out.println("Lỗi khi lưu sản phẩm: " + e.getMessage());
+            model.addAttribute("product", newProduct);
+            model.addAttribute("categories", categoryService.getAllCategories());
+            model.addAttribute("errorMessage", "Lỗi khi lưu sản phẩm: " + e.getMessage());
+            return "products/add";
+        }
         return "redirect:/products";
     }
 
@@ -79,19 +118,31 @@ public class ProductController {
     @PostMapping("/products/edit")
     public String Edit(@Valid Product editProduct,
                        BindingResult result,
-                       @RequestParam(value = "image", required = false) MultipartFile image,
+                       @RequestParam(value = "categoryId", required = false) Integer categoryId,
+                       @RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
                        Model model) {
         try {
             System.out.println("=== EDIT POST ===");
             System.out.println("Product ID: " + editProduct.getId());
             System.out.println("Product Name: " + editProduct.getName());
-            System.out.println("Category: " + editProduct.getCategory());
-            System.out.println("Has errors: " + result.hasErrors());
+            System.out.println("Category ID: " + categoryId);
 
             // Validate product ID exists
             if (editProduct.getId() <= 0) {
                 System.out.println("Invalid product ID");
                 return "redirect:/products";
+            }
+
+            // Xử lý category
+            if (categoryId != null && categoryId > 0) {
+                Category category = categoryService.getCategoryById(categoryId);
+                if (category != null) {
+                    editProduct.setCategory(category);
+                } else {
+                    result.rejectValue("category", "error.category", "Danh mục không tồn tại");
+                }
+            } else {
+                result.rejectValue("category", "error.category", "Vui lòng chọn danh mục");
             }
 
             // If validation failed, show form with errors
@@ -104,10 +155,17 @@ public class ProductController {
             }
 
             // Process image upload if provided
-            if (image != null && !image.isEmpty()) {
+            if (imageFile != null && !imageFile.isEmpty()) {
                 try {
-                    String fileName = System.currentTimeMillis() + "_" + image.getOriginalFilename();
-                    editProduct.setImage(fileName);
+                    String imagePath = fileUploadService.saveProductImage(imageFile);
+                    if (imagePath != null) {
+                        // Xóa ảnh cũ nếu tồn tại
+                        if (editProduct.getImage() != null && !editProduct.getImage().isEmpty()) {
+                            fileUploadService.deleteProductImage(editProduct.getImage());
+                        }
+                        editProduct.setImage(imagePath);
+                        System.out.println("Cập nhật ảnh thành công: " + imagePath);
+                    }
                 } catch (Exception imgEx) {
                     System.out.println("Image upload error: " + imgEx.getMessage());
                     model.addAttribute("product", editProduct);

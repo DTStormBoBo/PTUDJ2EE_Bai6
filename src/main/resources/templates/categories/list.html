@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh Sách Danh Mục</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <style>
+        .page-header {
+            background: linear-gradient(135deg, #1a1a2e, #0f3460);
+            color: white;
+            border-radius: 16px;
+            padding: 2rem 2.5rem;
+            margin: 0 auto 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 8px 32px rgba(15, 52, 96, 0.3);
+            max-width: 900px;
+        }
+
+        .page-header h2 {
+            margin: 0;
+            font-weight: 700;
+            font-size: 1.7rem;
+        }
+
+        .page-header p {
+            margin: 0.3rem 0 0;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        .btn-add {
+            background: linear-gradient(135deg, #e94560, #c73652);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.4rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 15px rgba(233, 69, 96, 0.4);
+        }
+
+        .btn-add:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(233, 69, 96, 0.5);
+            color: white;
+        }
+
+        .table-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .table {
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        .table thead {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: white;
+        }
+
+        .table thead th {
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            padding: 1rem 1.2rem;
+            border: none;
+        }
+
+        .table tbody td {
+            padding: 0.9rem 1.2rem;
+            vertical-align: middle;
+            border-color: #f0f2f5;
+            font-size: 0.92rem;
+        }
+
+        .category-id {
+            background: #f0f2f5;
+            color: #555;
+            font-weight: 600;
+            font-size: 0.8rem;
+            padding: 3px 8px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+        .category-name {
+            font-weight: 600;
+            color: #1a1a2e;
+        }
+
+        .btn-edit {
+            background: linear-gradient(135deg, #0f3460, #16213e);
+            color: white;
+            border: none;
+            padding: 0.38rem 0.9rem;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-edit:hover {
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(15, 52, 96, 0.4);
+        }
+
+        .btn-delete {
+            background: linear-gradient(135deg, #e94560, #c73652);
+            color: white;
+            border: none;
+            padding: 0.38rem 0.9rem;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .btn-delete:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(233, 69, 96, 0.4);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: #8b8b8b;
+        }
+    </style>
+
+    <div class="page-header">
+        <div>
+            <h2><i class="fas fa-list me-2"></i>Danh Sách Danh Mục</h2>
+            <p>Quản lý danh mục sản phẩm</p>
+        </div>
+        <div>
+            <a th:href="@{/categories/add}" class="btn-add">
+                <i class="fas fa-plus me-2"></i>Thêm Danh Mục
+            </a>
+            <a th:href="@{/products}" class="btn-add" style="margin-left: 0.5rem;">
+                <i class="fas fa-arrow-left me-2"></i>Quay Lại
+            </a>
+        </div>
+    </div>
+
+    <div class="table-card">
+        <table class="table table-hover mb-0">
+            <thead>
+            <tr>
+                <th><i class="fas fa-hashtag me-1"></i>ID</th>
+                <th><i class="fas fa-folder-open me-1"></i>Tên Danh Mục</th>
+                <th><i class="fas fa-cogs me-1"></i>Thao Tác</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.isEmpty(listcategory)}">
+                <td colspan="3">
+                    <div class="empty-state">
+                        <p class="mb-0">Chưa có danh mục nào.</p>
+                    </div>
+                </td>
+            </tr>
+            <tr th:each="category : ${listcategory}">
+                <td><span class="category-id" th:text="${category.id}"></span></td>
+                <td><span class="category-name" th:text="${category.name}"></span></td>
+                <td>
+                    <div class="d-flex gap-2">
+                        <a th:href="@{/categories/edit/{id}(id=${category.id})}" class="btn-edit">
+                            <i class="fas fa-pen me-1"></i>Sửa
+                        </a>
+                        <form th:action="@{/categories/delete/{id}(id=${category.id})}" method="post"
+                              onsubmit="return confirm('Bạn có chắc muốn xóa danh mục này?')">
+                            <button type="submit" class="btn-delete">
+                                <i class="fas fa-trash me-1"></i>Xóa
+                            </button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

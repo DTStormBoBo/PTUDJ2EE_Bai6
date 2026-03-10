@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm Danh Mục</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <style>
+        .form-page-header {
+            background: linear-gradient(135deg, #1a1a2e, #0f3460);
+            color: white;
+            border-radius: 16px;
+            padding: 1.8rem 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(15, 52, 96, 0.3);
+        }
+
+        .form-page-header h2 {
+            margin: 0;
+            font-weight: 700;
+            font-size: 1.7rem;
+        }
+
+        .form-page-header p {
+            margin: 0.3rem 0 0;
+            opacity: 0.65;
+            font-size: 0.88rem;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .form-card-body {
+            padding: 2rem 2.5rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            font-size: 0.88rem;
+            color: #333;
+            margin-bottom: 0.4rem;
+        }
+
+        .form-control {
+            border: 2px solid #e8ecf0;
+            border-radius: 10px;
+            padding: 0.65rem 1rem;
+            font-size: 0.92rem;
+            transition: all 0.2s ease;
+            background-color: #fafbfc;
+        }
+
+        .form-control:focus {
+            border-color: #0f3460;
+            box-shadow: 0 0 0 3px rgba(15, 52, 96, 0.12);
+            background-color: #fff;
+            outline: none;
+        }
+
+        .form-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem 2.5rem;
+            background: #f8f9fb;
+            border-top: 1px solid #f0f2f5;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #e94560, #c73652);
+            color: white;
+            border: none;
+            padding: 0.65rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .btn-cancel {
+            background: transparent;
+            color: #666;
+            border: 2px solid #e0e0e0;
+            padding: 0.63rem 1.6rem;
+            border-radius: 10px;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .text-danger {
+            color: #dc3545;
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+            display: block;
+        }
+    </style>
+
+    <div class="form-page-header" style="max-width: 650px; margin: 0 auto 2rem;">
+        <h2><i class="fas fa-plus-circle me-2"></i>Thêm Danh Mục Mới</h2>
+        <p>Tạo danh mục để phân loại sản phẩm</p>
+    </div>
+
+    <div class="form-card">
+        <form th:action="@{/categories/save}" th:object="${category}" method="post">
+            <div class="form-card-body">
+                <div>
+                    <label for="name" class="form-label"><i class="fas fa-folder me-1"></i>Tên Danh Mục</label>
+                    <input class="form-control" type="text" th:field="*{name}" id="name"
+                           placeholder="Nhập tên danh mục..." required/>
+                    <small class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-save me-2"></i>Lưu Danh Mục
+                </button>
+                <a th:href="@{/categories}" class="btn-cancel">
+                    <i class="fas fa-arrow-left me-1"></i>Quay lại
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
