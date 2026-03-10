@@ -112,7 +112,7 @@
             <div class="form-card-body">
                 <input type="hidden" th:field="*{id}">
                 <div>
-                    <label for="name" class="form-label"><i class="fas fa-folder me-1"></i>Ten Danh Muc</label>
+                    <label for="name" class="form-label"><i class="fas fa-folder me-1"></i>Tên Danh mục</label>
                     <input class="form-control" type="text" th:field="*{name}" id="name"
                            placeholder="Nhap ten danh muc..." required/>
                     <small class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
