@@ -1,8 +1,8 @@
-package main.ptudj2ee_bai5.controller;
+package main.ptudj2ee_bai6.controller;
 
 import jakarta.validation.Valid;
-import main.ptudj2ee_bai5.model.Category;
-import main.ptudj2ee_bai5.service.CategoryService;
+import main.ptudj2ee_bai6.model.Category;
+import main.ptudj2ee_bai6.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

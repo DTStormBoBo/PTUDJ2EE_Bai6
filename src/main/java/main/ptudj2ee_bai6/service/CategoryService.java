@@ -1,7 +1,7 @@
-package main.ptudj2ee_bai5.service;
+package main.ptudj2ee_bai6.service;
 
-import main.ptudj2ee_bai5.model.*;
-import main.ptudj2ee_bai5.repository.*;
+import main.ptudj2ee_bai6.model.*;
+import main.ptudj2ee_bai6.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

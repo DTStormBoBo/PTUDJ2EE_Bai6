@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="http://www.thymeleaf.org">
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -50,6 +51,27 @@
             display: flex;
             justify-content: center;
         }
+        .layout-header {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding: 1.2rem 1rem 0 1rem;
+        }
+        .layout-header .header-card {
+            width: 100%;
+            max-width: 1200px;
+            background: linear-gradient(135deg, #1a2a45, #0f3460);
+            color: white;
+            border-radius: 12px;
+            padding: 1.4rem 1.8rem;
+            box-shadow: 0 10px 30px rgba(15,52,96,0.12);
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:1rem;
+        }
+        .header-title { font-size:1.5rem; font-weight:700; }
+        .header-subtitle { opacity:0.8; font-size:0.95rem; }
         .main-content .container {
             width: 100%;
             max-width: 1200px;
@@ -79,15 +101,41 @@
             <a class="navbar-brand" th:href="@{/products}">
                 <i class="fas fa-home me-1"></i>Home
             </a>
-            <a class="navbar-brand" th:href="@{/products/add}">
+            <a class="navbar-brand" th:href="@{/products/add}" sec:authorize="hasRole('ADMIN')">
                 <i class="fas fa-plus-circle me-1"></i>Add Product
             </a>
-            <a class="navbar-brand" th:href="@{/categories}">
+            <a class="navbar-brand" th:href="@{/categories}" sec:authorize="hasRole('ADMIN')">
                 <i class="fas fa-plus-circle me-1"></i>Category
+            </a>
+        </div>
+        <div class="ms-auto d-flex align-items-center">
+            <div th:if="${currentUser != null or showNavbar == true}" class="text-end">
+                <form th:action="@{/logout}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-sm btn-outline-light">
+                        <i class="fas fa-sign-out-alt me-1"></i>Đăng xuất
+                    </button>
+                </form>
+                <div class="navbar-brand" style="color:#fff; font-size:0.95rem; padding:0.2rem 0;">
+                    Xin chào, <span th:text="${currentUser}"></span>
+                </div>
+            </div>
+            <a class="navbar-brand ms-3" th:if="${currentUser == null and not showNavbar}" th:href="@{/login}">
+                <i class="fas fa-sign-in-alt me-1"></i>Đăng nhập
             </a>
         </div>
     </div>
 </nav>
+
+<!-- Optional page header (set from controller via model: pageTitle, pageSubtitle, headerButtonsHtml) -->
+<div class="layout-header" th:if="${pageTitle != null}">
+    <div class="header-card">
+        <div>
+            <div class="header-title" th:text="${pageTitle}">Page Title</div>
+            <div class="header-subtitle" th:text="${pageSubtitle}"></div>
+        </div>
+        <div th:utext="${headerButtonsHtml}"></div>
+    </div>
+</div>
 
 <div class="main-content">
     <div layout:fragment="content" class="container">

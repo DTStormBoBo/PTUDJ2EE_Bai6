@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{_layout}">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Access Denied</title>
+</head>
+<body>
+<div layout:fragment="content" style="max-width: 900px; margin: 0 auto;">
+    <div style="background: #fff; border-radius: 16px; box-shadow: 0 6px 24px rgba(0,0,0,0.08); padding: 2.5rem; text-align: center;">
+        <h2 style="color: #c62828; font-weight: 700; margin-bottom: 1rem;">403 - Ban khong co quyen truy cap</h2>
+        <p style="color: #666; margin-bottom: 1.5rem;">Tai khoan hien tai khong du quyen de thuc hien thao tac nay.</p>
+        <a th:href="@{/products}" style="display: inline-block; padding: 0.65rem 1.2rem; border-radius: 10px; text-decoration: none; background: #0f3460; color: #fff; font-weight: 600;">Quay ve danh sach san pham</a>
+    </div>
+</div>
+</body>
+</html>

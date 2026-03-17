@@ -1,4 +1,4 @@
-package main.ptudj2ee_bai5.service;
+package main.ptudj2ee_bai6.service;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

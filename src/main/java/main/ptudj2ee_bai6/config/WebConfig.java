@@ -1,4 +1,4 @@
-package main.ptudj2ee_bai5.config;
+package main.ptudj2ee_bai6.config;
 
 import java.nio.file.Paths;
 import org.springframework.context.annotation.Configuration;

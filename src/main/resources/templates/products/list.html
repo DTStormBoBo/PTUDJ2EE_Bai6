@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{_layout}">
 <head>
@@ -244,10 +245,10 @@
             <h2><i class="fas fa-boxes me-2"></i>Danh Sách Sản Phẩm</h2>
             <p>Quản lý toàn bộ sản phẩm của bạn</p>
         </div>
-        <a th:href="@{/products/add}" class="btn-add">
+        <a th:href="@{/products/add}" class="btn-add" sec:authorize="hasRole('ADMIN')">
             <i class="fas fa-plus me-2"></i>Thêm Sản Phẩm
         </a>
-        <a th:href="@{/categories}" class="btn-add">
+        <a th:href="@{/categories}" class="btn-add" sec:authorize="hasRole('ADMIN')">
             <i class="fas fa-plus me-2"></i>Danh mục
         </a>
     </div>
@@ -271,7 +272,7 @@
                     <div class="empty-state">
                         <i class="fas fa-box-open"></i>
                         <p class="mt-2 fs-5 fw-semibold">Chưa có sản phẩm nào</p>
-                        <a th:href="@{/products/add}" class="btn-add mt-2 d-inline-block">
+                        <a th:href="@{/products/add}" class="btn-add mt-2 d-inline-block" sec:authorize="hasRole('ADMIN')">
                             <i class="fas fa-plus me-1"></i>Thêm ngay
                         </a>
                     </div>
@@ -297,7 +298,7 @@
                           th:text="${product.category != null ? product.category.name : 'N/A'}"></span>
                 </td>
                 <td>
-                    <div class="d-flex gap-2">
+                    <div class="d-flex gap-2" sec:authorize="hasRole('ADMIN')">
                         <form th:action="@{/products/edit/{id}(id=${product.id})}" method="get" style="display:inline;">
                             <button type="submit" class="btn-edit">
                                 <i class="fas fa-pen me-1"></i>Sửa

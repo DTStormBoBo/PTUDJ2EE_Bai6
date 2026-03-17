@@ -1,4 +1,4 @@
-package main.ptudj2ee_bai5.model;
+package main.ptudj2ee_bai6.model;
 
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;

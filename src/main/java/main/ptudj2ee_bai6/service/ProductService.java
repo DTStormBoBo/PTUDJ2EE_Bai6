@@ -1,7 +1,7 @@
-package main.ptudj2ee_bai5.service;
+package main.ptudj2ee_bai6.service;
 
-import main.ptudj2ee_bai5.model.*;
-import main.ptudj2ee_bai5.repository.*;
+import main.ptudj2ee_bai6.model.*;
+import main.ptudj2ee_bai6.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,11 +23,11 @@ public class ProductService {
         productRepository.save(product);
     }
 
-    public Product getProductById(int id) {
+    public Product getProductById(Long id) {
         return productRepository.findById(id).orElse(null);
     }
 
-    public void deleteProduct(int id) {
+    public void deleteProduct(Long id) {
         productRepository.deleteById(id);
     }
 }

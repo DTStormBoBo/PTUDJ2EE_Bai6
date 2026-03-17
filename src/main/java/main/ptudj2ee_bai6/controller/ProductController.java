@@ -1,11 +1,12 @@
-package main.ptudj2ee_bai5.controller;
+package main.ptudj2ee_bai6.controller;
 
 import jakarta.validation.Valid;
-import main.ptudj2ee_bai5.model.*;
-import main.ptudj2ee_bai5.service.*;
+import main.ptudj2ee_bai6.model.*;
+import main.ptudj2ee_bai6.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,13 +28,25 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public String Index(Model model) {
+    public String Index(Model model, HttpServletRequest request) {
         model.addAttribute("listproduct", productService.getAllProducts());
+        model.addAttribute("showNavbar", true);
+        model.addAttribute("currentUser", request.getRemoteUser());
+        model.addAttribute("pageTitle", "Danh Sách Sản Phẩm");
+        model.addAttribute("pageSubtitle", "Quản lý toàn bộ sản phẩm của bạn");
+        model.addAttribute("headerButtonsHtml", "<a class='btn btn-add' href='/products/add'>Thêm Sản Phẩm</a>");
         return "products/list";
     }
 
     @GetMapping("/products/add")
     public String Add(Model model) {
+        model.addAttribute("product", new Product());
+        model.addAttribute("categories", categoryService.getAllCategories());
+        return "products/add";
+    }
+
+    @GetMapping("/product/add")
+    public String AddAlias(Model model) {
         model.addAttribute("product", new Product());
         model.addAttribute("categories", categoryService.getAllCategories());
         return "products/add";
@@ -98,8 +111,16 @@ public class ProductController {
         return "redirect:/products";
     }
 
+    @PostMapping("/product/add")
+    public String SaveAlias(@Valid Product newProduct, BindingResult result,
+                            @RequestParam(value = "categoryId", required = false) Integer categoryId,
+                            @RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
+                            Model model) {
+        return Save(newProduct, result, categoryId, imageFile, model);
+    }
+
     @GetMapping("/products/edit/{id}")
-    public String Edit(@PathVariable int id, Model model) {
+    public String Edit(@PathVariable Long id, Model model) {
         Product find = productService.getProductById(id);
         if (find == null) {
             return "redirect:/products"; // Product not found, redirect to list
@@ -128,7 +149,7 @@ public class ProductController {
             System.out.println("Category ID: " + categoryId);
 
             // Validate product ID exists
-            if (editProduct.getId() <= 0) {
+            if (editProduct.getId() == null || editProduct.getId() <= 0) {
                 System.out.println("Invalid product ID");
                 return "redirect:/products";
             }
@@ -191,8 +212,8 @@ public class ProductController {
     }
 
     @GetMapping("/products/delete/{id}")
-    public String Delete(@PathVariable int id) {
+    public String Delete(@PathVariable Long id) {
         productService.deleteProduct(id);
         return "redirect:/products";
     }
-} 
+}
