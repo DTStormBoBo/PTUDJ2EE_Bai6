@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Đặt hàng thành công</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div style="max-width: 900px; margin: 0 auto; background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); text-align: center;">
+        <i class="fas fa-check-circle" style="font-size: 3rem; color: #2e7d32;"></i>
+        <h3 class="mt-3">Đặt hàng thành công</h3>
+        <p th:if="${order != null}" class="mt-2">Mã đơn: <strong th:text="${order.id}"></strong> &mdash; Tổng tiền: <strong th:text="${#numbers.formatDecimal(order.totalPrice, 0, 'COMMA', 0, 'POINT')}"></strong>đ</p>
+        <div class="mt-4" style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+            <a href="/products" class="btn btn-primary">Tiếp tục mua sắm</a>
+            <a href="/cart" class="btn btn-outline-secondary">Xem giỏ hàng</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

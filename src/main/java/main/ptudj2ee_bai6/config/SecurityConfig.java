@@ -35,6 +35,7 @@ public class SecurityConfig {
                 .requestMatchers("/upload/**", "/static/**").permitAll()
                 .requestMatchers("/products").authenticated()
                 .requestMatchers("/categories").authenticated()
+                .requestMatchers("/cart/**", "/checkout/**").hasAnyRole("USER", "ADMIN")
                 .requestMatchers("/products/add", "/product/add", "/products/save", "/products/edit/**", "/products/delete/**")
                     .hasRole("ADMIN")
                 .requestMatchers("/categories/add", "/categories/save", "/categories/edit/**", "/categories/delete/**")
@@ -50,6 +51,8 @@ public class SecurityConfig {
             .logout(logout -> logout
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login?logout")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
                 .permitAll()
             )
             .exceptionHandling(ex -> ex.accessDeniedPage("/access-denied"))

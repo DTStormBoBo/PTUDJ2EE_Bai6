@@ -4,6 +4,10 @@ import jakarta.validation.Valid;
 import main.ptudj2ee_bai6.model.*;
 import main.ptudj2ee_bai6.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,13 +32,45 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public String Index(Model model, HttpServletRequest request) {
-        model.addAttribute("listproduct", productService.getAllProducts());
+    public String Index(
+            @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
+            @RequestParam(value = "categoryId", required = false) Long categoryId,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "sort", defaultValue = "asc") String sort,
+            Model model, HttpServletRequest request) {
+        
+        // Determine sort order
+        Sort.Direction direction = "desc".equalsIgnoreCase(sort) ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Sort sortOrder = Sort.by(direction, "price");
+        
+        // Create pageable with 5 products per page
+        Pageable pageable = PageRequest.of(page, 5, sortOrder);
+        
+        // Get filtered and paginated results
+        Page<Product> products = productService.searchAndFilter(keyword, categoryId, pageable);
+        
+        // Add attributes to model
+        model.addAttribute("products", products);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("categoryId", categoryId);
+        model.addAttribute("sort", sort);
+        model.addAttribute("categories", categoryService.getAllCategories());
         model.addAttribute("showNavbar", true);
         model.addAttribute("currentUser", request.getRemoteUser());
-        model.addAttribute("pageTitle", "Danh Sách Sản Phẩm");
-        model.addAttribute("pageSubtitle", "Quản lý toàn bộ sản phẩm của bạn");
-        model.addAttribute("headerButtonsHtml", "<a class='btn btn-add' href='/products/add'>Thêm Sản Phẩm</a>");
+        // Add cart info to model
+        jakarta.servlet.http.HttpSession session = request.getSession(false);
+        if (session != null) {
+            main.ptudj2ee_bai6.model.Cart cart = (main.ptudj2ee_bai6.model.Cart) session.getAttribute("cart");
+            int cartCount = (cart != null) ? cart.getTotalQuantity() : 0;
+            model.addAttribute("cartItemCount", cartCount);
+        } else {
+            model.addAttribute("cartItemCount", 0);
+        }
+        
+        // Check user role
+        boolean isAdmin = request.isUserInRole("ADMIN");
+        model.addAttribute("isAdmin", isAdmin);
+        
         return "products/list";
     }
 

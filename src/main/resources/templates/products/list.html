@@ -13,52 +13,53 @@
         .page-header {
             background: linear-gradient(135deg, #1a1a2e, #0f3460);
             color: white;
-            border-radius: 16px;
-            padding: 2rem 2.5rem;
+            border-radius: 12px;
+            padding: 1.5rem;
             margin: 0 auto 2rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 8px 32px rgba(15, 52, 96, 0.3);
+            box-shadow: 0 2px 8px rgba(15, 52, 96, 0.15);
             max-width: 1200px;
         }
 
         .page-header h2 {
             margin: 0;
             font-weight: 700;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             letter-spacing: 0.5px;
         }
 
         .page-header p {
             margin: 0.3rem 0 0;
-            opacity: 0.7;
-            font-size: 0.9rem;
+            opacity: 0.8;
+            font-size: 0.85rem;
         }
 
         .btn-add {
             background: linear-gradient(135deg, #e94560, #c73652);
             color: white;
             border: none;
-            padding: 0.6rem 1.4rem;
-            border-radius: 10px;
+            padding: 0.5rem 1.2rem;
+            border-radius: 8px;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             text-decoration: none;
             transition: all 0.25s ease;
-            box-shadow: 0 4px 15px rgba(233, 69, 96, 0.4);
+            box-shadow: 0 2px 8px rgba(233, 69, 96, 0.2);
+            cursor: pointer;
         }
 
         .btn-add:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(233, 69, 96, 0.5);
+            box-shadow: 0 4px 12px rgba(233, 69, 96, 0.3);
             color: white;
         }
 
         .table-card {
             background: white;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
             overflow: hidden;
             max-width: 1200px;
             margin: 0 auto;
@@ -78,35 +79,35 @@
 
         .table thead th {
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             letter-spacing: 0.5px;
             text-transform: uppercase;
-            padding: 1rem 1.2rem;
+            padding: 0.9rem 1rem;
             border: none;
         }
 
         .table tbody tr {
             transition: background 0.15s ease;
+            border-bottom: 1px solid #f0f0f0;
         }
 
         .table tbody tr:hover {
             background-color: #f8f9ff;
         }
 
-        .table tbody td, .table tbody th {
-            padding: 0.9rem 1.2rem;
+        .table tbody td {
+            padding: 0.8rem 1rem;
             vertical-align: middle;
-            border-color: #f0f2f5;
-            font-size: 0.92rem;
+            font-size: 0.9rem;
         }
 
         .product-id {
             background: #f0f2f5;
             color: #555;
             font-weight: 600;
-            font-size: 0.8rem;
-            padding: 3px 8px;
-            border-radius: 6px;
+            font-size: 0.75rem;
+            padding: 2px 6px;
+            border-radius: 4px;
             display: inline-block;
         }
 
@@ -116,37 +117,39 @@
         }
 
         .product-img {
-            border-radius: 10px;
+            border-radius: 8px;
             object-fit: cover;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
-            border: 2px solid #f0f2f5;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #f0f2f5;
         }
 
         .price-badge {
-            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            background: #e8f5e9;
             color: #2e7d32;
             font-weight: 700;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.88rem;
+            padding: 3px 10px;
+            border-radius: 16px;
+            font-size: 0.85rem;
+            display: inline-block;
         }
 
         .category-badge {
-            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            background: #e3f2fd;
             color: #1565c0;
             font-weight: 600;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
+            padding: 3px 10px;
+            border-radius: 16px;
+            font-size: 0.8rem;
+            display: inline-block;
         }
 
         .btn-edit {
-            background: linear-gradient(135deg, #0f3460, #16213e);
+            background: #0f3460;
             color: white;
             border: none;
-            padding: 0.38rem 0.9rem;
-            border-radius: 8px;
-            font-size: 0.82rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
             font-weight: 500;
             transition: all 0.2s ease;
             cursor: pointer;
@@ -154,16 +157,16 @@
 
         .btn-edit:hover {
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(15, 52, 96, 0.4);
+            box-shadow: 0 2px 8px rgba(15, 52, 96, 0.3);
         }
 
         .btn-delete {
-            background: linear-gradient(135deg, #e94560, #c73652);
+            background: #e94560;
             color: white;
             border: none;
-            padding: 0.38rem 0.9rem;
-            border-radius: 8px;
-            font-size: 0.82rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
             font-weight: 500;
             transition: all 0.2s ease;
             cursor: pointer;
@@ -171,75 +174,24 @@
 
         .btn-delete:hover {
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(233, 69, 96, 0.4);
+            box-shadow: 0 2px 8px rgba(233, 69, 96, 0.3);
         }
 
         .empty-state {
             text-align: center;
-            padding: 4rem 2rem;
+            padding: 3rem 2rem;
             color: #aaa;
         }
 
         .empty-state i {
-            font-size: 4rem;
+            font-size: 3rem;
             margin-bottom: 1rem;
             color: #ddd;
         }
-
-        .stats-row {
-            margin-bottom: 1.5rem;
-        }
-
-        .stat-card {
-            background: white;
-            border-radius: 12px;
-            padding: 1.2rem 1.5rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .stat-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-        }
-
-        .stat-icon.blue {
-            background: linear-gradient(135deg, #e3f2fd, #90caf9);
-            color: #1565c0;
-        }
-
-        .stat-icon.red {
-            background: linear-gradient(135deg, #fce4ec, #f48fb1);
-            color: #c62828;
-        }
-
-        .stat-icon.green {
-            background: linear-gradient(135deg, #e8f5e9, #a5d6a7);
-            color: #2e7d32;
-        }
-
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #1a1a2e;
-            line-height: 1;
-        }
-
-        .stat-label {
-            font-size: 0.8rem;
-            color: #888;
-            margin-top: 2px;
-        }
     </style>
 
-    <!-- Page Header -->
+    <!-- Page Header removed; using layout header with pageTitle/pageSubtitle/headerButtonsHtml -->
+    <!--
     <div class="page-header">
         <div>
             <h2><i class="fas fa-boxes me-2"></i>Danh Sách Sản Phẩm</h2>
@@ -251,6 +203,67 @@
         <a th:href="@{/categories}" class="btn-add" sec:authorize="hasRole('ADMIN')">
             <i class="fas fa-plus me-2"></i>Danh mục
         </a>
+    </div>
+    -->
+
+    <!-- Search, Filter, Sort Bar -->
+    <div style="background: white; border-radius: 12px; padding: 1.2rem 1.5rem; margin: 0 auto 2rem; max-width: 1200px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);">
+        <form method="get" th:action="@{/products}" id="searchForm" style="display: flex; gap: 1rem; align-items: flex-end; flex-wrap: wrap;">
+            
+            <!-- Search Keyword -->
+            <div style="flex: 1; min-width: 200px;">
+                <label for="keyword" style="font-weight: 500; color: #333; display: block; margin-bottom: 0.4rem; font-size: 0.9rem;">
+                    Tìm kiếm
+                </label>
+                <input type="text" id="keyword" name="keyword" class="form-control" 
+                       th:value="${keyword}" placeholder="Nhập tên sản phẩm..." 
+                       style="border-radius: 6px; border: 1px solid #ddd; padding: 0.5rem 0.8rem; font-size: 0.9rem;">
+            </div>
+
+            <!-- Filter by Category with Clear Button -->
+            <div style="flex: 1; min-width: 200px; position: relative;">
+                <label for="categoryId" style="font-weight: 500; color: #333; display: block; margin-bottom: 0.4rem; font-size: 0.9rem;">
+                    Danh mục
+                </label>
+                <div style="position: relative; display: flex; align-items: center;">
+                    <select id="categoryId" name="categoryId" class="form-control" 
+                            style="border-radius: 6px; border: 1px solid #ddd; padding: 0.5rem 0.8rem; font-size: 0.9rem; padding-right: 2.5rem;">
+                        <option value="">-- Tất cả --</option>
+                        <option th:each="cat : ${categories}" 
+                                th:value="${cat.id}" 
+                                th:text="${cat.name}"
+                                th:selected="${categoryId != null && categoryId == cat.id}"></option>
+                    </select>
+                    <button type="button" id="clearCategory" 
+                            th:style="${categoryId != null && categoryId != '' ? 'display: block' : 'display: none'}"
+                            style="position: absolute; right: 8px; background: none; border: none; cursor: pointer; color: #999; font-size: 1.2rem; padding: 0;"
+                            onclick="document.getElementById('categoryId').value=''; document.getElementById('clearCategory').style.display='none'; document.getElementById('searchForm').submit();">
+                        ✕
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sort by Price with Clear Button -->
+            <div style="flex: 0.8; min-width: 140px; position: relative;">
+                <label for="sort" style="font-weight: 500; color: #333; display: block; margin-bottom: 0.4rem; font-size: 0.9rem;">
+                    Sắp xếp giá
+                </label>
+                <div style="position: relative; display: flex; align-items: center;">
+                    <select id="sort" name="sort" class="form-control" 
+                            style="border-radius: 6px; border: 1px solid #ddd; padding: 0.5rem 0.8rem; font-size: 0.9rem;">
+                        <option value="asc">↑ Thấp đến cao</option>
+                        <option value="desc">↓ Cao đến thấp</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Search Button -->
+            <button type="submit" style="background: linear-gradient(135deg, #e94560, #c73652); color: white; border: none; padding: 0.5rem 1.2rem; border-radius: 6px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.25s ease; height: 38px; display: flex; align-items: center; gap: 0.5rem;"
+                    onmouseover="this.style.boxShadow='0 4px 12px rgba(233, 69, 96, 0.4)'; this.style.transform='translateY(-1px)';"
+                    onmouseout="this.style.boxShadow='none'; this.style.transform='translateY(0)';">
+                <i class="fas fa-search"></i> Tìm
+            </button>
+        </form>
     </div>
 
     <!-- Table -->
@@ -267,7 +280,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:if="${#lists.isEmpty(listproduct)}">
+            <tr th:if="${#lists.isEmpty(products.content)}">
                 <td colspan="6">
                     <div class="empty-state">
                         <i class="fas fa-box-open"></i>
@@ -278,7 +291,7 @@
                     </div>
                 </td>
             </tr>
-            <tr th:each="product: ${listproduct}">
+            <tr th:each="product: ${products.content}">
                 <td><span class="product-id" th:text="${product.id}"></span></td>
                 <td><span class="product-name" th:text="${product.name}"></span></td>
                 <td>
@@ -298,6 +311,7 @@
                           th:text="${product.category != null ? product.category.name : 'N/A'}"></span>
                 </td>
                 <td>
+                    <!-- For ADMIN: Show Edit/Delete buttons -->
                     <div class="d-flex gap-2" sec:authorize="hasRole('ADMIN')">
                         <form th:action="@{/products/edit/{id}(id=${product.id})}" method="get" style="display:inline;">
                             <button type="submit" class="btn-edit">
@@ -312,10 +326,63 @@
                             </button>
                         </form>
                     </div>
+                    
+                    <!-- For USER: Show Add to Cart button -->
+                    <a th:href="@{/cart/add/{id}(id=${product.id})}" 
+                       class="btn-add" 
+                       sec:authorize="hasRole('USER')"
+                       style="padding: 0.3rem 0.8rem; font-size: 0.85rem; display: inline-block;">
+                        <i class="fas fa-shopping-cart me-1"></i>Thêm giỏ
+                    </a>
                 </td>
             </tr>
             </tbody>
         </table>
+    </div>
+
+    <!-- Pagination - Simple Style -->
+    <div style="background: white; border-radius: 12px; padding: 1.5rem; margin: 2rem auto 0; max-width: 1200px; text-align: center; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);">
+        <div style="display: flex; gap: 0.5rem; justify-content: center; align-items: center; flex-wrap: wrap;">
+            <!-- Previous Button -->
+            <a th:if="${products.hasPrevious()}"
+               th:href="@{/products(page=${products.number - 1}, keyword=${keyword}, categoryId=${categoryId}, sort=${sort})}"
+               style="padding: 0.5rem 0.8rem; color: #0f3460; text-decoration: none; font-weight: 600; cursor: pointer;">
+                &lt;
+            </a>
+            <span th:if="${!products.hasPrevious()}" 
+                  style="padding: 0.5rem 0.8rem; color: #ccc; font-weight: 600;">
+                &lt;
+            </span>
+
+            <!-- Page Numbers -->
+            <span th:each="i : ${#numbers.sequence(0, products.totalPages - 1)}" 
+                  th:if="${i >= products.number - 2 && i <= products.number + 2}"
+                  style="display: inline-block;">
+                <a th:if="${i != products.number}"
+                   th:href="@{/products(page=${i}, keyword=${keyword}, categoryId=${categoryId}, sort=${sort})}"
+                   th:text="${i + 1}"
+                   style="padding: 0.5rem 0.8rem; color: #0f3460; text-decoration: none; font-weight: 500; cursor: pointer; display: inline-block;"></a>
+                <span th:if="${i == products.number}" 
+                      th:text="${i + 1}"
+                      style="padding: 0.5rem 0.8rem; color: white; background: #0f3460; border-radius: 4px; font-weight: 600; display: inline-block; min-width: 35px;"></span>
+            </span>
+
+            <!-- Next Button -->
+            <a th:if="${products.hasNext()}"
+               th:href="@{/products(page=${products.number + 1}, keyword=${keyword}, categoryId=${categoryId}, sort=${sort})}"
+               style="padding: 0.5rem 0.8rem; color: #0f3460; text-decoration: none; font-weight: 600; cursor: pointer;">
+                &gt;
+            </a>
+            <span th:if="${!products.hasNext()}" 
+                  style="padding: 0.5rem 0.8rem; color: #ccc; font-weight: 600;">
+                &gt;
+            </span>
+        </div>
+        
+        <!-- Pagination Info -->
+        <div style="margin-top: 1rem; color: #666; font-size: 0.85rem;">
+            <span th:text="'Trang ' + ${products.number + 1} + ' / ' + ${products.totalPages} + ' | ' + ${products.totalElements} + ' sản phẩm'"></span>
+        </div>
     </div>
 </div>
 </body>

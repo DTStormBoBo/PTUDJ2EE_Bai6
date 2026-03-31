@@ -21,119 +21,90 @@
         }
         .navbar {
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%) !important;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.3);
-            padding: 0.8rem 1.5rem;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.25);
+            padding: 0.7rem 0;
+        }
+        .navbar-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
         .navbar-brand {
             color: #e0e0e0 !important;
             font-weight: 500;
             font-size: 0.95rem;
-            padding: 0.4rem 0.9rem;
+            padding: 0.4rem 0.8rem;
             border-radius: 8px;
             transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
         }
-        .navbar-brand:hover {
-            color: #fff !important;
-            background-color: rgba(255,255,255,0.1);
-        }
-        .navbar-brand.brand-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #fff !important;
-            letter-spacing: 0.5px;
-        }
-        .navbar-brand.brand-title i {
-            color: #e94560;
-        }
-        .main-content {
-            flex: 1;
-            padding: 2rem 1rem;
-            display: flex;
-            justify-content: center;
-        }
-        .layout-header {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            padding: 1.2rem 1rem 0 1rem;
-        }
+        .navbar-brand:hover { color: #fff !important; background-color: rgba(255,255,255,0.12); }
+        .navbar-brand.brand-title { font-size: 1.15rem; font-weight: 700; color: #fff !important; letter-spacing: 0.4px; padding-left: 0; }
+        .navbar-brand.brand-title i { color: #e94560; }
+        .nav-links { display: inline-flex; gap: 0.4rem; align-items: center; }
+        .main-content { flex: 1; padding: 1.8rem 1rem; display: flex; justify-content: center; }
+        .layout-header { width: 100%; display: flex; justify-content: center; padding: 1rem 1rem 0 1rem; }
         .layout-header .header-card {
-            width: 100%;
-            max-width: 1200px;
+            width: 100%; max-width: 1200px;
             background: linear-gradient(135deg, #1a2a45, #0f3460);
             color: white;
             border-radius: 12px;
-            padding: 1.4rem 1.8rem;
-            box-shadow: 0 10px 30px rgba(15,52,96,0.12);
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            gap:1rem;
+            padding: 1.2rem 1.6rem;
+            box-shadow: 0 8px 26px rgba(15,52,96,0.16);
+            display:flex; align-items:center; justify-content:space-between; gap:1rem;
         }
-        .header-title { font-size:1.5rem; font-weight:700; }
-        .header-subtitle { opacity:0.8; font-size:0.95rem; }
-        .main-content .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0;
-        }
-        .footer {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            color: #aaa;
-            padding: 1.2rem 0;
-            text-align: center;
-            font-size: 0.85rem;
-            margin-top: auto;
-        }
-        .footer span {
-            color: #e94560;
-        }
+        .header-title { font-size:1.45rem; font-weight:700; }
+        .header-subtitle { opacity:0.85; font-size:0.92rem; }
+        .header-actions a { margin-left: 0.6rem; }
+        .main-content .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0; }
+        .footer { background: linear-gradient(135deg, #1a1a2e, #16213e); color: #aaa; padding: 1rem 0; text-align: center; font-size: 0.85rem; margin-top: auto; }
+        .footer span { color: #e94560; }
     </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg">
-    <div class="container-fluid" style="padding-left: 30px;">
+    <div class="navbar-inner">
         <a class="navbar-brand brand-title" th:href="@{/products}">
-            <i class="fas fa-box-open me-2"></i>ProductManager
+            <i class="fas fa-box-open"></i>ProductManager
         </a>
-        <div class="ms-3">
-            <a class="navbar-brand" th:href="@{/products}">
-                <i class="fas fa-home me-1"></i>Home
-            </a>
-            <a class="navbar-brand" th:href="@{/products/add}" sec:authorize="hasRole('ADMIN')">
-                <i class="fas fa-plus-circle me-1"></i>Add Product
-            </a>
-            <a class="navbar-brand" th:href="@{/categories}" sec:authorize="hasRole('ADMIN')">
-                <i class="fas fa-plus-circle me-1"></i>Category
+        <div class="nav-links">
+            <a class="navbar-brand" th:href="@{/products}"><i class="fas fa-home"></i>Home</a>
+            <a class="navbar-brand" th:href="@{/products/add}" sec:authorize="hasRole('ADMIN')"><i class="fas fa-plus-circle"></i>Add Product</a>
+            <a class="navbar-brand" th:href="@{/categories}" sec:authorize="hasRole('ADMIN')"><i class="fas fa-th-large"></i>Category</a>
+            <a class="navbar-brand" th:href="@{/cart}" sec:authorize="hasRole('USER')">
+                <i class="fas fa-shopping-cart"></i>Cart
+                <span th:if="${cartItemCount != null and cartItemCount > 0}" class="badge bg-danger" th:text="${cartItemCount}"></span>
             </a>
         </div>
-        <div class="ms-auto d-flex align-items-center">
+        <div class="ms-auto d-flex align-items-center" style="gap: 0.6rem;">
             <div th:if="${currentUser != null or showNavbar == true}" class="text-end">
-                <form th:action="@{/logout}" method="post" style="display:inline;">
-                    <button type="submit" class="btn btn-sm btn-outline-light">
-                        <i class="fas fa-sign-out-alt me-1"></i>Đăng xuất
-                    </button>
-                </form>
-                <div class="navbar-brand" style="color:#fff; font-size:0.95rem; padding:0.2rem 0;">
+                <a th:href="@{/logout}" class="btn btn-sm btn-outline-light" style="padding: 0.35rem 0.7rem;">
+                    <i class="fas fa-sign-out-alt me-1"></i>Đăng xuất
+                </a>
+                <div class="navbar-brand" style="color:#fff; font-size:0.9rem; padding:0.1rem 0;">
                     Xin chào, <span th:text="${currentUser}"></span>
                 </div>
             </div>
-            <a class="navbar-brand ms-3" th:if="${currentUser == null and not showNavbar}" th:href="@{/login}">
+            <a class="navbar-brand" th:if="${currentUser == null and not showNavbar}" th:href="@{/login}">
                 <i class="fas fa-sign-in-alt me-1"></i>Đăng nhập
             </a>
         </div>
     </div>
 </nav>
 
-<!-- Optional page header (set from controller via model: pageTitle, pageSubtitle, headerButtonsHtml) -->
 <div class="layout-header" th:if="${pageTitle != null}">
     <div class="header-card">
         <div>
             <div class="header-title" th:text="${pageTitle}">Page Title</div>
             <div class="header-subtitle" th:text="${pageSubtitle}"></div>
         </div>
-        <div th:utext="${headerButtonsHtml}"></div>
+        <div class="header-actions" th:utext="${headerButtonsHtml}"></div>
     </div>
 </div>
 
